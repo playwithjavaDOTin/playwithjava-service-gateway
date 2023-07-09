@@ -18,15 +18,23 @@ public class GatewayConfig  {
 
         /*Adding header value to incoming request*/
       /*  redirecting request to given url*/
+
+
         Function<PredicateSpec, Buildable<Route>> fn=
                 p->p.path("/get")
                         .filters(f->f
+                                        // Adding request header to URL
                                         .addRequestHeader("JRF_TOKEN","token_value")
                                         .addRequestHeader("AUTH-TOKEN","Tokne"))
+
                                 .uri("http://httpbin.org:80/");
 
       return  builder.routes()
-                .route(fn).build();
+                .route(fn)
+              //Routing
+              //.route(p->p.path("/employee-service/**").uri("lb://employee-service"))
+              //.route(p->p.path("/employee-feign-service/**").uri("lb://employee-feign-service"))
+              .build();
     }
 
 }
